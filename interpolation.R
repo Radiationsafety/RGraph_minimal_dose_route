@@ -31,4 +31,4 @@ proj4string(grd.pts)=CRS("+init=epsg:4326")
 x <- krige(z~1, xy.spdf, grd.pts) #interpolation
 OutGrid=cbind(x$Var1,x$Var2,exp(x$var1.pred)) # exponentiation
 df1=as.data.frame(OutGrid)
-write.table(df1,file=paste("GRidded_",inputdadafilename,sep=""),sep=" ")
+write.table(df1,file=paste("GRidded_",inputdatafilename,sep=""),sep=" ")
