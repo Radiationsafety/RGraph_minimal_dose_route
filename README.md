@@ -13,7 +13,7 @@ Use this code to find an optimal bypass of selected points on the map (by defaul
 <h3>4. Chinese_postman_problem.R</h3>
 Use this code to find a solution of a Chinese postman problem. 
 The Chinese postman problem is to find a shortest closed path or circuit that visits every edge of a (connected) undirected graph.
-By default route starts in edge 1.
+By default route starts in vertex 1.
 <p><br>
 © Chizhov Konstantin. <br>
 Contact email: <a href="mailto:nicemind@ya.ru">nicemind@ya.ru</a>
