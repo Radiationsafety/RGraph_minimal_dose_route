@@ -76,6 +76,7 @@ g<-as.undirected(g)
 
 # optimal route finder
 n_points<-length(p7[,1])    # number of points to visit
+dose=matrix(nrow = n_points, ncol = n_points)
 for(i in 1:(n_points-1)){
   for(j in i:n_points){
     routine<-get.shortest.paths(g,from=p7[i,1],to=p7[j,1],weights = NULL) # search for the route with a minimal dose
