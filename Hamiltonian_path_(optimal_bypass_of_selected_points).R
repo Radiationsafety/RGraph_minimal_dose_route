@@ -90,7 +90,8 @@ for(i in 1:(n_points-1)){
 #The calculation of the dose matrix for the shortest routes between the visiting points is completed
 
 #Calculation of doses for all possible Hamiltonian paths between points of visits (the first point is the beginning and the end of the path is always)
-Dose<-(t(dose)+dose)        # The dose matrix is symmetrized 
+dose[lower.tri(dose)] = t(dose)[lower.tri(dose)] # The dose matrix is symmetrized 
+Dose=dose
 g1 <- graph.ring(n_points)   # Random permutation of a random graph g1
 kk<-factorial(n_points)     # kk is chosen such that the smallest dose appears in the cycle several times
 D_h<-rep(0,kk);             # A vector is created to store the doses
