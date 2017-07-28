@@ -21,4 +21,7 @@ By default route starts in vertex 1.
 © Chizhov Konstantin. <br>
 Contact email: <a href="mailto:kchizhov@fmbcfmba.ru">kchizhov@fmbcfmba.ru</a>
 
-Paper in JRP: http://iopscience.iop.org/article/10.1088/1361-6498/aa7c4f/pdf
+Paper in JRP: http://iopscience.iop.org/article/10.1088/1361-6498/aa7c4f
+Published 28 July 2017 • © 2017 IOP Publishing Ltd 
+Journal of Radiological Protection, Volume 37, Number 3
+Reference APA: Chizhov, K., Sneve, M. K., Shinkarev, S., Tsovyanov, A., Smith, G., Krasnoschekov, A., ... & Kryuchkov, V. (2017). Methods of minimizing doses incurred by external exposure while moving in radiation hazardous areas. Journal of Radiological Protection,Volume 37, Number 3.
