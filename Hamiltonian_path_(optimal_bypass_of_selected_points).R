@@ -142,6 +142,6 @@ walkspeed=1
 walktimestep=(stepx/walkspeed)/3600 # in hours
 Dose=min(D_h) * walktimestep
 #Time on the route is conditional, because the diagonal elements are also considered to pass for the "walktimestep"
-paste('The dose on the route after visiting all the given points =',round(Dose,4),'mcSv/h') 
+paste('The dose on the route after visiting all the given points =',round(Dose,4),'mcSv') 
 # Time of calculation
 proc.time() - ptm
