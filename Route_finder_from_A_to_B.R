@@ -45,63 +45,47 @@ point_1<-p7[1,1];point_2<-p7[2,1]
 #Creation of a date-frame describing the weight of the edges of the graph-lattice
 i=1
 df=data.frame(x=double(),y=double(),dose_rate=double()) # empty dataframe for weights
+df_dist=data.frame(x=double(),y=double(),dose_rate=double()) # empty dataframe for distance weights
 while(i < ncell(grid_graph)) {
   if (mask_buildings[i]!=0){ # If there is a mask, then do not build an egde 
-    if (ceiling(i/grid_grapn_ncol)!=(i/grid_grapn_ncol)){          # Check for the last column
+    if ((ceiling(i/grid_grapn_ncol)!=(i/grid_grapn_ncol))&(mask_buildings[i+1]!=0)){          # Check for the last column
       df=rbind(df,c(i,i+1,wsp3[i,2]))  
+      df_dist=rbind(df_dist,c(i,i+1,1)) 
     }
-    if (ceiling(i/grid_grapn_nrow)<grid_grapn_nrow){          # Check for the last row
-      df=rbind(df,c(i,i+grid_grapn_ncol,wsp3[i,2])) 
-      if (ceiling(i/grid_grapn_ncol)!=(i/grid_grapn_ncol)){    #1 diagonal "\", Multiply by 1.4 - Longer walk diagonally
-        df=rbind(df,c(i,i+1+grid_grapn_ncol,wsp3[i,2]*1.4))  
+    if (ceiling(i/grid_grapn_ncol)<grid_grapn_nrow){  # Check for the last row (строка)
+      if (mask_buildings[i+grid_grapn_ncol]!=0){
+        df=rbind(df,c(i,i+grid_grapn_ncol,wsp3[i,2])) 
+        df_dist=rbind(df_dist,c(i,i+grid_grapn_ncol,1))
       }
-      if (i>1) { 
-        if (ceiling((i-1)/grid_grapn_ncol)!=((i-1)/grid_grapn_ncol)){    #2 diagonal "/", Multiply by 1.4 - Longer walk diagonally
-          df=rbind(df,c(i,i-1+grid_grapn_ncol,wsp3[i,2]*1.4))  
+      if (ceiling(i/grid_grapn_ncol)!=(i/grid_grapn_ncol)){          #1 diagonal "\", Multiply by 1.4 - Longer walk diagonally
+        if (mask_buildings[i+1+grid_grapn_ncol]!=0){
+          df=rbind(df,c(i,i+1+grid_grapn_ncol,wsp3[i,2]*1.4))  
+          df_dist=rbind(df_dist,c(i,i+1+grid_grapn_ncol,1.4))   
         }
       }
+      if ((i!=1)&((i-1)/grid_grapn_ncol!=floor((i-1)/grid_grapn_ncol))){  #2 diagonal "/", Multiply by 1.4 - Longer walk diagonally
+        if (mask_buildings[i-1+grid_grapn_ncol]!=0){
+          df=rbind(df,c(i,i-1+grid_grapn_ncol,wsp3[i,2]*1.4))  
+          df_dist=rbind(df_dist,c(i,i-1+grid_grapn_ncol,1.4))   
+        }
+      }
+      
     }
     
   }
-  
   i=i+1
 }
 #end of creation of a date-frame
 
-#Creation of a date-frame describing the __distance__weight__ of the edges of the graph-lattice
-# time for 1 horizontal edge= 1, for diagonal =1.4
-i=1
-df_dist=data.frame(x=double(),y=double(),dose_rate=double()) # empty dataframe for weights
-while(i < ncell(grid_graph)) {
-  if (mask_buildings[i]!=0){ # If there is a mask, then do not build an egde 
-    if (ceiling(i/grid_grapn_ncol)!=(i/grid_grapn_ncol)){          # Check for the last column
-      df_dist=rbind(df_dist,c(i,i+1,1))  
-    }
-    if (ceiling(i/grid_grapn_nrow)<grid_grapn_nrow){          # Check for the last row
-      df_dist=rbind(df_dist,c(i,i+grid_grapn_ncol,1)) 
-      if (ceiling(i/grid_grapn_ncol)!=(i/grid_grapn_ncol)){    #1 diagonal "\", Multiply by 1.4 - Longer walk diagonally
-        df_dist=rbind(df_dist,c(i,i+1+grid_grapn_ncol,1.4))  
-      }
-      if (i>1) { 
-        if (ceiling((i-1)/grid_grapn_ncol)!=((i-1)/grid_grapn_ncol)){    #2 diagonal "/", Multiply by 1.4 - Longer walk diagonally
-          df_dist=rbind(df_dist,c(i,i-1+grid_grapn_ncol,1.4))  
-        }
-      }
-    }
-    
-  }
-  
-  i=i+1
-}
 el_dist<-as.matrix(df_dist)
 g_dist<- add.edges(graph.empty(ncell(grid_graph)), t(el_dist[,1:2]), weight=el_dist[,3])
 g_dist<-as.undirected(g_dist)
 #end of creation of a distance weight date-frame
+
 #Computation of the shortest path in the graph
 el<-as.matrix(df)
 g<- add.edges(graph.empty(ncell(grid_graph)), t(el[,1:2]), weight=el[,3])
 g<-as.undirected(g)
-#plot(g,edge.label=round(E(g)$weight,2)) # plot a graph
 
 #dose by summarizing the edge weights (More precisely, takes into account large doses on the diagonal 1.4)
 #dose_dist storage for distance per route
